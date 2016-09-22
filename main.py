@@ -2,21 +2,13 @@
 class ContactList(list):
 
     def search(self, search_str):
-        contact_list = ContactList()
-        for i in self:
-            if search_str in i.name:
-                contact_list.append(i)
-        return contact_list
+        return [i for i in self if search_str in i.name]
 
     def longest_name(self):
         try:
-            contact_len = []
-            for i in self:
-                name_len = len(i.name)
-                new = [name_len, i.name]
-                contact_len.append(new)
-            sorted_contact = sorted(contact_len, key=lambda contact: contact[0])
-            return sorted_contact[-1][1]
+            names = [i.name for i in self]
+            longest = max(names, key=len)
+            return longest
         except:
             return None
 
@@ -44,8 +36,3 @@ class Supplier(Contact):
 
     def order(self, order):
         Supplier.all_orders.setdefault(self.email, []).append(order)
-
-contact1 = Contact("Some", "somebody@example.net")
-contact2 = Contact("Sandor", "sandor.brody@example.net")
-contact3 = Contact("Elek Benedek", "elek.benedek@example.net")
-print(Contact.all_contacts.longest_name())
